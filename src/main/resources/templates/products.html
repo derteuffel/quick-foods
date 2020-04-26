@@ -68,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="hero__item set-bg" th:style="'background:url(' +${lists[0]?.pictureUrl}');'" data-setbg="img/hero/banner.jpg">
+                    <div class="hero__item set-bg" th:style="'background:url(' +${lists[0].pictureUrl}+ ');'">
                         <div class="hero__text">
                             <span style="text-transform: uppercase" th:text="${lists[0].name}">FRUIT FRESH</span>
                             <h2 th:text="${lists[0].category}"></h2>
