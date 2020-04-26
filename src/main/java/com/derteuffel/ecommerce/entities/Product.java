@@ -25,6 +25,7 @@ public class Product {
     @NotNull(message = "product quantity can not be less than 1.")
     @Min(value = 1)
     private int quantity = 1;
+    private String addedDate;
 
     @NotNull(message = "product category is required.")
     private String category;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -16,6 +17,10 @@ public class ProductServiceImpl implements ProductService{
     @Autowired
     private ProductRepository productRepository;
 
+    @Override
+    public Optional<Product> findOne(String name, String seller) {
+        return productRepository.findByNameAndSeller(name,seller);
+    }
 
     @Override
     public Collection<Product> getAllsProduct() {
@@ -28,7 +33,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product getProduct(Long id) throws Exception {
+    public Product getProduct(Long id)  {
         return productRepository.getOne(id);
     }
 
