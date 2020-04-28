@@ -1,6 +1,5 @@
 package com.derteuffel.ecommerce.controllers;
 
-import com.derteuffel.ecommerce.entities.Message;
 import com.derteuffel.ecommerce.entities.Order;
 import com.derteuffel.ecommerce.entities.OrderProduct;
 import com.derteuffel.ecommerce.entities.Product;
@@ -9,7 +8,6 @@ import com.derteuffel.ecommerce.helpers.OrderProductDto;
 import com.derteuffel.ecommerce.services.OrderProductService;
 import com.derteuffel.ecommerce.services.OrderService;
 import com.derteuffel.ecommerce.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
@@ -20,8 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -65,6 +61,29 @@ public class HomeController {
         model.addAttribute("lists",lists);
         return "products";
     }
+
+    @GetMapping("/produits/categories/{category}")
+    public String getProductsByCategory(Model model, @PathVariable String category){
+        List<Product> alls = this.productService.getAllsProductByCategories(category);
+        if (alls.size() == 0){
+            model.addAttribute("message", "Product not found");
+        }
+
+        List<Product> lists = new ArrayList<>();
+        int n = 8;
+
+        for (int i=0;i<alls.size();i++){
+            if (!(i>n)) {
+                lists.add(alls.get(i));
+            }
+        }
+
+        model.addAttribute("form",new OrderForm());
+        model.addAttribute("lists",lists);
+        return "category";
+    }
+
+
 
 
     @GetMapping("/orders")
