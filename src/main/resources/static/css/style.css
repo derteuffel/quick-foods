@@ -1669,6 +1669,8 @@ ol {
 
 .product__details__pic__item img {
 	min-width: 100%;
+	width: 540px;
+	height: 560px;
 }
 
 .product__details__pic__slider img {

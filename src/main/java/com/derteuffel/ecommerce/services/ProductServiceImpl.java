@@ -1,6 +1,6 @@
 package com.derteuffel.ecommerce.services;
 
-import com.derteuffel.ecommerce.ProductRepository;
+import com.derteuffel.ecommerce.repositories.ProductRepository;
 import com.derteuffel.ecommerce.entities.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,12 +24,12 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Collection<Product> getAllsProduct() {
+    public List<Product> getAllsProduct() {
         return productRepository.findAll(Sort.by(Sort.Direction.DESC,"name"));
     }
 
     @Override
-    public Collection<Product> getAllsProductByCategories(String category) {
+    public List<Product> getAllsProductByCategories(String category) {
         return productRepository.findAllByCategoryAndDisponibility(category,true, Sort.by(Sort.Direction.DESC,"id"));
     }
 
