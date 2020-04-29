@@ -17,15 +17,13 @@ public class Panier implements Serializable {
     private Long id;
     private String status;
     private Double amount;
-    @OneToMany(mappedBy = "panier")
-    private List<Commande> commandes = new ArrayList<>();
 
     @Transient
-    public Double getAmount(){
-        for (Commande commande : this.commandes){
-            amount =+commande.getTotalAmount();
+    public Double getAmount(List<Commande> commandes, Double total){
+        for (Commande commande : commandes){
+            total +=commande.getTotalAmount();
         }
-        return amount;
+        return total;
     }
 
 }

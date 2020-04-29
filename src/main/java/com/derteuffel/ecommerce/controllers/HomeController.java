@@ -105,6 +105,20 @@ public class HomeController {
 
     }
 
+    @GetMapping("/panier/{id}")
+    public String panierDetails(@PathVariable Long id,Model model){
+        Panier panier = panierRepository.getOne(id);
+        List<Commande> commandes = commandeRepository.findAllByPanier_Id(panier.getId());
+        System.out.println(commandes.size());
+        Double num=0.0;
+        panier.setAmount(panier.getAmount(commandes,num));
+        panierRepository.save(panier);
+        System.out.println(panier.getAmount());
+        model.addAttribute("item",panier);
+        model.addAttribute("commandes",commandes);
+        return "panier";
+    }
+
 
 
 

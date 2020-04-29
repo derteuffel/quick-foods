@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quick Foods</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" th:href="@{/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" href="css/nice-select.css" th:href="@{/css/nice-select.css}" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" th:href="@{/css/jquery-ui.min.css}" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" th:href="@{/css/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" th:href="@{/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}" type="text/css">
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Humberger Begin -->
+    <div class="humberger__menu__overlay"></div>
+    <div th:replace="~{../templates/fragments/hamburger :: hamburger}">
+    </div>
+    <!-- Humberger End -->
+
+    <!-- Header Section Begin -->
+    <header th:replace="~{../templates/fragments/header :: header}" >
+    </header>
+    <!-- Header Section End -->
+
+    <!-- Hero Section Begin -->
+    <section class="hero hero-normal">
+        <div class="container">
+            <div class="row">
+                <div th:replace="~{../templates/fragments/sidebar :: sidebar}">
+                </div>
+                <div class="col-lg-9">
+                    <div th:replace="~{../templates/fragments/hero_search :: hero_search}" >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="../img/breadcrumb.jpg">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb__text">
+                        <h2><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;Mon Panier</h2>
+                        <div class="breadcrumb__option">
+                            <a th:href="@{/}">Accueil</a>
+                            <span>Detail panier</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shoping Cart Section Begin -->
+    <section class="shoping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="shoping__product">Produits</th>
+                                    <th>Prix</th>
+                                    <th>Quantite</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="detail : ${commandes}">
+                                    <td class="shoping__cart__item">
+                                        <img th:src="${detail.product.pictureUrl}" style="height: 80px;width: 80px" alt="">
+                                        <h5><span th:text="${detail.product.name}"></span></h5>
+                                    </td>
+                                    <td class="shoping__cart__price">
+                                        <span th:text="${detail.product.price}"></span>(FCFA)
+                                    </td>
+                                    <td class="shoping__cart__quantity">
+                                        <span th:text="${detail.quantity}"></span>
+                                    </td>
+                                    <td class="shoping__cart__total">
+                                        <span th:text="${detail.getTotalAmount()}"></span>
+                                    </td>
+                                    <td class="shoping__cart__item__close">
+                                        <span class="icon_close"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shoping__cart__btns">
+                        <a th:href="@{/produits}" class="primary-btn cart-btn">AJOUTER D"AUTRE PRODUITS</a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shoping__continue">
+                        <!--div class="shoping__discount">
+                            <h5>Discount Codes</h5>
+                            <form action="#">
+                                <input type="text" placeholder="Enter your coupon code">
+                                <button type="submit" class="site-btn">APPLY COUPON</button>
+                            </form>
+                        </div-->
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="shoping__checkout">
+                        <h5>TOTAL</h5>
+                        <ul>
+                            <li>Sous total <span th:text="${item.getAmount()}"></span>(FCFA)</li>
+                            <li>Total general <span th:text="${item.getAmount()}"></span>(FCFA)</li>
+                        </ul>
+                        <a href="#" class="primary-btn">EFFECTUER LE PAIEMENT</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Shoping Cart Section End -->
+
+    <!-- Footer Section Begin -->
+    <footer th:replace="~{../templates/fragments/footer :: footer}">
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}" ></script>
+    <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="js/jquery.nice-select.min.js" th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script src="js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}"></script>
+    <script src="js/jquery.slicknav.js" th:src="@{/js/jquery.slicknav.js}"></script>
+    <script src="js/mixitup.min.js" th:src="@{/js/mixitup.min.js}"></script>
+    <script src="js/owl.carousel.min.js" th:src="@{/js/owl.carousel.min.js}"></script>
+    <script src="js/main.js" th:src="@{/js/main.js}"></script>
+    <script src="js/js.js" th:src="@{/js/js.js}"></script>
+
+
+</body>
+
+</html>
