@@ -41,6 +41,7 @@
                         </li>
                         <li><a th:href="@{/blog}">Blog</a></li>
                         <li><a th:href="@{/contact}">Contactez nous</a></li>
+                        <li><a th:href="@{/contact}"><i class="fa fa-shopping-cart fa-2x text-warning"></i>&nbsp;Mon panier&nbsp;<span class="badge badge-success" th:text="${#lists.size(session.panier?.getCommandes())}"></span></a></li>
                     </ul>
                 </nav>
             </div>
