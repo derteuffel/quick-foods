@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findAllByCategoryAndDisponibility(String category, Boolean disponibility, Sort sort);
     Optional<Product> findByNameAndSeller(String name, String seller);
+    List<Product> findAllByLocationAndDisponibility(String location, Boolean disponibility, Sort sort);
 }

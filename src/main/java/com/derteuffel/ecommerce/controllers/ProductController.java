@@ -1,9 +1,12 @@
 package com.derteuffel.ecommerce.controllers;
 
+import com.derteuffel.ecommerce.entities.Menu;
 import com.derteuffel.ecommerce.entities.Product;
+import com.derteuffel.ecommerce.repositories.MenuRepository;
 import com.derteuffel.ecommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +36,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private MenuRepository menuRepository;
 
     @GetMapping("/product/lists")
     public String getAlls(Model model){
@@ -44,6 +49,18 @@ public class ProductController {
         model.addAttribute("product", new Product());
 
         return "product/lists";
+    }
+
+    @GetMapping("/menus/lists")
+    public String getAllsMenus(Model model){
+        Collection<Menu> alls = menuRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
+        if (alls.size() == 0){
+            model.addAttribute("message", "Menu not found");
+        }
+        model.addAttribute("lists",alls);
+        model.addAttribute("menu", new Menu());
+
+        return "menus/lists";
     }
 
     @PostMapping("/product/save")
@@ -79,6 +96,29 @@ public class ProductController {
         }
         redirectAttributes.addFlashAttribute("success", "Votre produit a ete ajouter avec succes");
         return "redirect:/admin/product/lists";
+    }
+
+    @PostMapping("/menus/save")
+    public String addMenu(@Valid Menu menu, @RequestParam("file") MultipartFile file,RedirectAttributes redirectAttributes){
+        Date date = new Date();
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm");
+        if (!(file.isEmpty())) {
+            try {
+                // Get the file and save it somewhere
+                byte[] bytes = file.getBytes();
+                Path path = Paths.get(fileStorage + file.getOriginalFilename());
+                Files.write(path, bytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            menu.setPictureUrl("/downloadFile/" + file.getOriginalFilename());
+        }
+        menu.setAddedDate(format.format(date));
+        menu.setSlug(menu.getDescription().substring(0,60)+"...");
+        menuRepository.save(menu);
+        redirectAttributes.addFlashAttribute("success","Votre enregistrement a ete fait avec succes");
+        return "redirect:/admin/menus/lists";
+
     }
 
 }

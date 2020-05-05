@@ -95,12 +95,34 @@
                         <div class="featured__item__pic set-bg" >
                             <img th:src="${item1.pictureUrl}" style="height: 100%;width: 100%" alt="">
                             <ul class="featured__item__pic__hover">
-                                <li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
+                                <li><a href="#" type="button" data-toggle="modal" data-target="#modal-order" th:attr="data-target='#modal-order'+${item1.id}"  data-placement="top" title="Commander"><i class="fa fa-shopping-cart"></i></a></li>
                             </ul>
                         </div>
                         <div class="featured__item__text">
                             <h6><a th:href="@{/produits/}+${item1.id}" th:text="${item1.name}">Crab Pool Security</a></h6>
                             <h5><span th:text="${item1.price}"></span>&nbsp;(FCFA)</h5>
+                        </div>
+                    </div>
+                    <div class="modal  fade " tabindex="-1" role="dialog"  aria-hidden="true" th:id="modal-order+${item1.id}" >
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header text-center alert-info">
+                                    <h5 class="modal-title">Commander ce produit</h5>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:action="@{/add/panier/}+${item1.id}" method="get">
+                                        <div class="product__details__quantity">
+                                            <div class="quantity">
+                                                <div class="pro-qty">
+                                                    <input type="text" value="0" name="quantity">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button  type="submit" class="primary-btn">AJOUTER DANS LE PANIER</button>
+                                        <button type="button" class="btn-warning" data-dismiss="modal">FERMER</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

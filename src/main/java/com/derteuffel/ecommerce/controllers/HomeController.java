@@ -1,12 +1,15 @@
 package com.derteuffel.ecommerce.controllers;
 
 import com.derteuffel.ecommerce.entities.Commande;
+import com.derteuffel.ecommerce.entities.Menu;
 import com.derteuffel.ecommerce.entities.Panier;
 import com.derteuffel.ecommerce.entities.Product;
 import com.derteuffel.ecommerce.enums.OrderStatus;
 import com.derteuffel.ecommerce.repositories.CommandeRepository;
+import com.derteuffel.ecommerce.repositories.MenuRepository;
 import com.derteuffel.ecommerce.repositories.PanierRepository;
 import com.derteuffel.ecommerce.services.ProductService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,20 +26,41 @@ public class HomeController {
     ProductService productService;
     PanierRepository panierRepository;
     CommandeRepository commandeRepository;
+    MenuRepository menuRepository;
 
 
-    public HomeController(ProductService productService, CommandeRepository commandeRepository, PanierRepository panierRepository) {
+    public HomeController(ProductService productService, CommandeRepository commandeRepository,
+                          PanierRepository panierRepository, MenuRepository menuRepository) {
         this.productService = productService;
         this.commandeRepository=commandeRepository;
         this.panierRepository=panierRepository;
+        this.menuRepository = menuRepository;
     }
 
     @GetMapping(value = {"","/"})
-    public String home(HttpServletRequest request){
+    public String home(HttpServletRequest request,Model model){
         System.out.println(request.getRequestURL());
         Panier panier = new Panier();
         panier.setStatus(OrderStatus.UNPAID.name());
         panierRepository.save(panier);
+        List<Product> alls = productService.getAllsProduct();
+        List<Menu> menus = new ArrayList<>();
+        List<Menu> allsMenus = menuRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
+        List<Product> lists = new ArrayList<>();
+        for (int i= 0;i<alls.size();i++){
+            if (!(i>8)){
+                lists.add(alls.get(i));
+            }
+        }
+
+        for (int i = 0; i<allsMenus.size();i++){
+            if (!(i>6)){
+                menus.add(allsMenus.get(i));
+            }
+        }
+
+        model.addAttribute("menus",menus);
+        model.addAttribute("lists",lists);
         request.getSession().setAttribute("lastUrl",request.getRequestURL());
         request.getSession().setAttribute("panier",panier);
         return "index";
@@ -72,7 +96,7 @@ public class HomeController {
         }
 
         List<Product> lists = new ArrayList<>();
-        int n = 8;
+        int n = 12;
 
         for (int i=0;i<alls.size();i++){
             if (!(i>n)) {
@@ -82,6 +106,27 @@ public class HomeController {
 
         model.addAttribute("lists",lists);
         return "category";
+    }
+
+    @GetMapping("/produits/location/{location}")
+    public String getProductsByLocation(Model model, @PathVariable String location,HttpServletRequest request){
+        request.getSession().setAttribute("lastUrl",request.getRequestURL());
+        List<Product> alls = this.productService.findAllByLocationAndDisponibility(location);
+        if (alls.size() == 0){
+            model.addAttribute("message", "Product not found");
+        }
+
+        List<Product> lists = new ArrayList<>();
+        int n = 12;
+
+        for (int i=0;i<alls.size();i++){
+            if (!(i>n)) {
+                lists.add(alls.get(i));
+            }
+        }
+
+        model.addAttribute("lists",lists);
+        return "location";
     }
 
 
@@ -142,6 +187,27 @@ public class HomeController {
         return  "product";
 
     }
+
+    @GetMapping("/menus/detail/{id}")
+    public String getMenu(@PathVariable Long id, Model model, HttpServletRequest request){
+        request.getSession().setAttribute("lastUrl",request.getRequestURL());
+        Menu menu = menuRepository.getOne(id);
+        List<Menu> menus = this.menuRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        List<Menu> lists = new ArrayList<>();
+        int n = 3;
+
+        for (int i=0;i<menus.size();i++){
+            if (!(i>n)) {
+                lists.add(menus.get(i));
+            }
+        }
+        model.addAttribute("menu", menu);
+        model.addAttribute("lists",lists);
+        return  "menu";
+
+    }
+
+
 
 
     @GetMapping("/about")

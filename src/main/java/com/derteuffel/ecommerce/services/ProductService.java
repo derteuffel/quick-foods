@@ -18,5 +18,6 @@ public interface ProductService {
     Product saveProduct(Product product);
     Product updateProduct(Product product);
     Optional<Product> findOne(String name, String seller);
+    List<Product> findAllByLocationAndDisponibility(String location);
 
 }

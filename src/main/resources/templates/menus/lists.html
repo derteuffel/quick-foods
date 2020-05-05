@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="ZIG'S Enterprises">
+    <meta name="keywords" content="ZIG'S Enterprises, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Quick Foods</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" type="text/css">
+    <link rel="stylesheet" href="css/font-awesome.min.css" th:href="@{/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" href="css/elegant-icons.css" th:href="@{/css/elegant-icons.css}" type="text/css">
+    <link rel="stylesheet" href="css/nice-select.css" th:href="@{/css/nice-select.css}" type="text/css">
+    <link rel="stylesheet" href="css/jquery-ui.min.css" th:href="@{/css/jquery-ui.min.css}" type="text/css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css" th:href="@{/css/owl.carousel.min.css}" type="text/css">
+    <link rel="stylesheet" href="css/slicknav.min.css" th:href="@{/css/slicknav.min.css}" type="text/css">
+    <link rel="stylesheet" href="css/style.css" th:href="@{/css/style.css}" type="text/css">
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Humberger Begin -->
+    <div class="humberger__menu__overlay"></div>
+    <div th:replace="~{../templates/fragments/hamburger :: hamburger}">
+    </div>
+    <!-- Humberger End -->
+
+    <!-- Header Section Begin -->
+    <header th:replace="~{../templates/fragments/header :: header}"  >
+    </header>
+    <!-- Header Section End -->
+<div th:if="${#lists.size(lists)}>0">
+    <!-- Hero Section Begin -->
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div th:replace="~{../templates/fragments/sidebar :: sidebar}">
+                </div>
+                <div class="col-lg-9">
+                    <div th:replace="~{../templates/fragments/hero_search :: hero_search}" >
+                    </div>
+                    <div class="" >
+                            <h2>LISTE DES MENUS</h2>
+                            <button type="button" data-toggle="modal" data-target="#modal-add"  class="btn btn-outline-success"  data-placement="top" title="Add button"><i class="fa fa-plus">&nbsp;Menu</i></button>
+                            <table class="table table-bordered table-light">
+                                <thead>
+                                <th>#</th>
+                                <th>Nom</th>
+                                <th>Slug</th>
+                                <th>Date d'ajout</th>
+                                <th>Action</th>
+                                </thead>
+                                <tbody>
+                                <tr th:each=" item : ${lists}">
+                                    <td><img th:src="${item.pictureUrl}" style="height: 60px;width: 60px" alt=""></td>
+                                    <td th:text="${item.title}"></td>
+                                    <td th:text="${item.slug}"></td>
+                                    <td th:text="${item.addedDate}"></td>
+                                    <td>
+                                        <button type="button" data-toggle="modal" data-target="#modal-detail" th:attr="data-target='#modal-detail'+${item.id}" class="btn btn-outline-success"  data-placement="top" title="Details">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
+                                        <a th:href="@{/admin/menus/edit/}+${item.id}" class="btn btn-outline-primary" data-toggle="tooltip" data-placement="top" title="Edit">
+                                            <i class="fa fa-edit"></i>
+                                        </a>
+                                        <button type="button" data-toggle="modal" data-target="#modal-delete" th:attr="data-target='#modal-delete'+${item.id}" class="btn btn-outline-danger"  data-placement="top" title="Delete">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                    <div class="modal  fade " tabindex="-1" role="dialog"  aria-hidden="true" th:id="modal-detail+${item.id}" >
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header text-center alert-info">
+                                                    <h5 class="modal-title">Detail d'un menu</h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row my-2">
+                                                        <div class="col-lg-4 col-md-6">
+                                                            <strong>Image</strong>
+                                                        </div>
+                                                        <div class="col-lg-8 col-md-6">
+                                                            <img th:src="${item.pictureUrl}" style="width: 70px;height: 70px" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row my-2">
+                                                        <div class="col-lg-4 col-md-6">
+                                                            <strong>Titre</strong>
+                                                        </div>
+                                                        <div class="col-lg-8 col-md-6">
+                                                            <small th:text="${item.title}"></small>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row my-2">
+                                                        <div class="col-lg-4 col-md-6">
+                                                            <strong>Slug</strong>
+                                                        </div>
+                                                        <div class="col-lg-8 col-md-6">
+                                                            <small th:text="${item.slug}"></small>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row my-2">
+                                                        <div class="col-lg-4 col-md-6">
+                                                            <strong>Description</strong>
+                                                        </div>
+                                                        <div class="col-lg-8 col-md-6">
+                                                            <small th:text="${item.description}"></small>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row my-2">
+                                                        <div class="col-lg-4 col-md-6">
+                                                            <strong>Date d'ajout</strong>
+                                                        </div>
+                                                        <div class="col-lg-8 col-md-6">
+                                                            <small th:text="${item.addedDate}" ></small>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                                <div class="modal-footer text-center">
+                                                    <button type="button" class="btn btn-warning pull-left" data-dismiss="modal">Retour</button>
+                                                    <a  class="btn btn-success"  th:href="@{/admin/menus/edit/}+${item.id}"><i class="fa fa-edit"></i>&nbsp;Editer</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal card modal-warning alert-warning fade in" th:id="modal-delete+${item.id}" >
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header text-center alert-info">
+                                                    <h5 class="modal-title">Suppresion d'un element</h5>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    <h3>Voulez vous vraiment supprimer cet element?</h3>
+                                                </div>
+                                                <div class="modal-footer text-center">
+                                                    <button type="button" class="btn btn-warning pull-left" data-dismiss="modal">Retour</button>
+                                                    <a  class="btn btn-success"  th:href="@{/admin/menus/delete/}+${item.id}"><i class="fa fa-check"></i>&nbsp;Oui</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+</div>
+<div th:unless="${#lists.size(lists)}>0">
+    <!-- Hero Section Begin -->
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div th:replace="~{../templates/fragments/sidebar :: sidebar}">
+                </div>
+                <div class="col-lg-9">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form action="#">
+                                <div class="hero__search__categories">
+                                    Categories
+                                    <span class="arrow_carrot-down"></span>
+                                </div>
+                                <input type="text" placeholder="De quoi avez-vous besoin?">
+                                <button type="submit" class="site-btn">Rechercher</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>+237 000 00 00 00</h5>
+                                <span>Disponible 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2>LISTE DES MENUS</h2>
+                        <button type="button" data-toggle="modal" data-target="#modal-add"  class="btn btn-outline-success"  data-placement="top" title="Add button"><i class="fa fa-plus">&nbsp;Menu</i></button>
+                        <h2 >Aucun element trouve</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+</div>
+
+    <div class="modal  fade" tabindex="-1" role="dialog" aria-labelledby="modal-add-label" aria-hidden="true" id="modal-add" >
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-center alert-info">
+                    <h5 class="modal-title">Formulaire nouveau menu</h5>
+                </div>
+                <div class="modal-body text-center">
+                    <form th:action="@{/admin/menus/save}" th:object="${menu}" method="post" enctype="multipart/form-data">
+                        <div class="row my-2">
+                            <div class="col-lg-4 col-md-6">
+                                <label >Titre du menu</label>
+                            </div>
+                            <div class="col-lg-8 col-md-6">
+                                <input type="text" class="form-control" th:field="*{title}" placeholder="Titre">
+                            </div>
+                        </div>
+
+                        <div class="row my-2">
+                            <div class="col-lg-4 col-md-6">
+                                <label>Image du menu </label>
+                            </div>
+                            <div class="col-lg-8 col-md-6">
+                                <input type="file" name="file" class="form-control-file">
+                            </div>
+                        </div>
+                        <!--<div class="row my-2">
+                            <div class="col-lg-4 col-md-6">
+                                <label>Slug</label>
+                            </div>
+                            <div class="col-lg-8 col-md-6 text-center">
+                                <textarea th:field="*{slug}" rows="3" class="form-control" placeholder="Slug"></textarea>
+                            </div>
+                        </div>-->
+                        <div class="row my-2">
+                            <div class="col-lg-4 col-md-6">
+                                <label>Description</label>
+                            </div>
+                            <div class="col-lg-8 col-md-6 text-center">
+                                <textarea th:field="*{description}" rows="5" class="form-control" placeholder="Description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer text-center">
+                            <button type="button" class="btn btn-warning pull-left" data-dismiss="modal">Retour</button>
+                            <button type="submit" class="btn btn-success pull-right" >Valider</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Footer Section Begin -->
+    <footer th:replace="~{../templates/fragments/footer :: footer}">
+    </footer>
+    <!-- Footer Section End -->
+
+    <!-- Js Plugins -->
+    <script src="js/jquery-3.3.1.min.js" th:src="@{/js/jquery-3.3.1.min.js}" ></script>
+    <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}"></script>
+    <script src="js/jquery.nice-select.min.js" th:src="@{/js/jquery.nice-select.min.js}"></script>
+    <script src="js/jquery-ui.min.js" th:src="@{/js/jquery-ui.min.js}"></script>
+    <script src="js/jquery.slicknav.js" th:src="@{/js/jquery.slicknav.js}"></script>
+    <script src="js/mixitup.min.js" th:src="@{/js/mixitup.min.js}"></script>
+    <script src="js/owl.carousel.min.js" th:src="@{/js/owl.carousel.min.js}"></script>
+    <script src="js/main.js" th:src="@{/js/main.js}"></script>
+    <script src="js/js.js" th:src="@{/js/js.js}"></script>
+
+
+
+
+</body>
+
+</html>

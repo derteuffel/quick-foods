@@ -24,6 +24,11 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public List<Product> findAllByLocationAndDisponibility(String location) {
+        return this.productRepository.findAllByLocationAndDisponibility(location,true,Sort.by(Sort.Direction.DESC,"id"));
+    }
+
+    @Override
     public List<Product> getAllsProduct() {
         return productRepository.findAll(Sort.by(Sort.Direction.DESC,"name"));
     }

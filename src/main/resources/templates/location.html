@@ -49,7 +49,7 @@
                 <div class="col-lg-9">
                     <div th:replace="~{../templates/fragments/hero_search :: hero_search}" >
                     </div>
-                    <div class="hero__item set-bg" th:attr="data-setbg=${lists[0].pictureUrl}">
+                    <div class="hero__item set-bg" th:attr="data-setbg=${lists[0].pictureUrl}" >
                         <div class="hero__text">
                             <span style="text-transform: uppercase" th:text="${lists[0].name}">FRUIT FRESH</span>
                             <h2 th:text="${lists[0].category}"></h2>
@@ -95,7 +95,7 @@
                         <div class="featured__item__pic set-bg" >
                             <img th:src="${item1.pictureUrl}" style="height: 100%;width: 100%" alt="">
                             <ul class="featured__item__pic__hover">
-                                <li><a href="#" type="button" data-toggle="modal" data-target="#modal-order" th:attr="data-target='#modal-order'+${item1.id}"  data-placement="top" title="Commander" ><i class="fa fa-shopping-cart"></i></a></li>
+                                <li><a href="#" type="button" data-toggle="modal" data-target="#modal-order" th:attr="data-target='#modal-order'+${item1.id}"  data-placement="top" title="Commander"><i class="fa fa-shopping-cart"></i></a></li>
                             </ul>
                         </div>
                         <div class="featured__item__text">
@@ -125,6 +125,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

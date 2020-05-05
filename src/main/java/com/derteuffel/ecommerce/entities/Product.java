@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @Table(name = "product")
 @Entity
+//@Inheritance(strategy = InheritanceType.JOINED)
 public class Product {
 
     @Id
